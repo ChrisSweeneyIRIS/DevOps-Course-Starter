@@ -1,20 +1,10 @@
 class Item:
-
-    def __init__(self, id, name, status = "To Do"):
+    def __init__(self, id, title, status, notes):
         self.id = id
-        self.name = name
-        self.status = status
+        self.title = title
+        self.status = status 
+        self.notes = notes
 
     @classmethod
     def fetchTrelloDetails(cls, card, list):
-        return cls(card["id"], card["name"], list["name"])
-
-    def initial(self):
-        self.status = "To Do"
-    
-    def completed(self):
-        self.status = "Done"
-
-    def started(self):
-        self.status = "In Progress"
-    
+        return cls(card["id"], card["name"], list["name"], card["desc"])

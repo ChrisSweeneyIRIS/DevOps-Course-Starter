@@ -1,37 +1,35 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, request, redirect
+import todo_app.data.trello_items as trello
 
-from todo_app.data import trello_items as trello
 from todo_app.flask_config import Config
 
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object(Config())
 
-
-@app.route('/')
+@app.route("/")
 def index():
     items = trello.get_items()
-    return render_template("index.html", items = items)
+    return render_template("index.html", items=items)
 
-@app.route('/items/new', methods=['POST'])
-def add_item():
-    title = request.form['title']
-    trello.add_item(title)
-    return redirect(url_for('index'))
+@app.route("/add", methods=["POST"])
+def add():
+    trello.add_item(request.form.get("title"), request.form.get("description"))
+    return redirect("/")
 
-@app.route('/items/<id>/complete')
-def complete_item(id):
+@app.route("/complete/<id>")
+def complete(id: str):
     trello.complete_item(id)
-    return redirect(url_for('index'))
+    return redirect("/")
 
-@app.route('/items/<id>/start')
-def start_item(id):
-    trello.start_item(id)
-    return redirect(url_for('index')) 
+@app.route("/progress/<id>")
+def progress(id: str):
+    trello.progress_item(id)
+    return redirect("/")
 
-@app.route('/items/<id>/start')
-def start_item(id):
-    trello.start_item(id)
-    return redirect(url_for('index')) 
+@app.route("/remove/<id>")
+def remove(id):
+    trello.remove_item(id)
+    return redirect("/")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
