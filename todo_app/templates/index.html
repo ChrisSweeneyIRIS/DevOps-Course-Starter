@@ -10,13 +10,32 @@ To-Do App
   
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
+      <h2>Tasks To Do</h2>
       <ul class="list-group mb-4">
-        {% for item in items %}
+        {% for item in view_model.to_do %}
         <li class="list-group-item">
           {{ item.title }}: {{ item.notes }} - {{item.status}}
             <a class="btn btn-primary" role="button" href="/progress/{{ item.id }}">Start Task</a>
             <a class="btn btn-success" role="button" href="/complete/{{ item.id }}">Set as Complete</a>
+            <a class="btn btn-danger" role="button" href="/remove/{{ item.id }}">Remove Task</a>
+        </li>
+        {% endfor %}
+      </ul>
+      <h2>Tasks In Progress</h2>
+      <ul class="list-group mb-4">
+        {% for item in view_model.in_progress %}
+        <li class="list-group-item">
+          {{ item.title }}: {{ item.notes }} - {{item.status}}
+            <a class="btn btn-success" role="button" href="/complete/{{ item.id }}">Set as Complete</a>
+            <a class="btn btn-danger" role="button" href="/remove/{{ item.id }}">Remove Task</a>
+        </li>
+        {% endfor %}
+      </ul>
+      <h2>Tasks Completed</h2>
+      <ul class="list-group mb-4">
+        {% for item in view_model.complete %}
+        <li class="list-group-item">
+          {{ item.title }}: {{ item.notes }} - {{item.status}}
             <a class="btn btn-danger" role="button" href="/remove/{{ item.id }}">Remove Task</a>
         </li>
         {% endfor %}
