@@ -9,7 +9,7 @@ class view_model:
         return self._items
     
     @property
-    def to_do(self):
+    def to_do(self) -> list[Item]:
         return [item for item in self._items if item.status == "To Do"]
 
     @property
@@ -22,4 +22,4 @@ class view_model:
 
     @property
     def should_show_all_done_items(self):
-        return len(self.filter_list_by_status('Complete')) < 5
+        return len(self.filter_list_by_status('Complete')) <= 5
